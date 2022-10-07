@@ -1,3 +1,7 @@
+table, th, td {
+    border: 1px solid;
+}
+
 body {
     padding: 0;
     margin: 0;
@@ -10,24 +14,24 @@ body {
 }
 
 .map-container {
-    height: 400px;
+    height: 500px;
     width: 850px;
 }
 
 .scatter-container {
-    height: 200px;
+    height: 500px;
     width: 425px;
     
 }
 
 .bar-container {
-    height: 200px;
+    height: 500px;
     width: 425px;
 }
 
 .table-container {
-    height: 100px;
-    width: 850px;
+    height: 500px;
+    width: 425px;
 }
 
 .gauge-container {
