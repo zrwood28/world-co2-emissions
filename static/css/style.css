@@ -1,3 +1,64 @@
-#scatter_plot {
+body {
+    padding: 0;
+    margin: 0;
+  }
+  
+/* Set map to 100% of the screen size. */
+#map {
     height: 100%;
+    
 }
+
+.map-container {
+    height: 400px;
+    width: 850px;
+}
+
+.scatter-container {
+    height: 200px;
+    width: 425px;
+    
+}
+
+.bar-container {
+    height: 200px;
+    width: 425px;
+}
+
+.table-container {
+    height: 100px;
+    width: 850px;
+}
+
+.gauge-container {
+    height: 200px;
+    width: 425px;
+}
+
+@media (max-width: 1024px) {
+    .map-container {
+        height: 200px;
+        width: 425px;
+    }
+    .scatter-container {
+        height: 100px;
+        width: 225px;
+    }
+    
+    .bar-container {
+        height: 100px;
+        width: 225px;
+    }
+    
+    .table-container {
+        height: 100px;
+        width: 425px;
+    }
+    
+    .gauge-container {
+        height: 100px;
+        width: 225px;
+    }
+
+  }
+  
