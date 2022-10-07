@@ -40,59 +40,99 @@
     <br>
 
     <!-- Year dropdown selector -->
-    <div class = "row">
-      <div class = "col-md-2">
-        <div class="well">
-          <h5>Year</h5>
-          <select id="selDataset" onchange="optionChanged(this.value)"></select>
-        </div>
-      </div>
-    </div>
+ 
     
     <div class="container">
       <div class="row">
-        <div class="col-md-8">1 - MAP
+        <div class="col-md-8">
           <div class="card map-container">
+            <h5 class="card-header">
+              <div class="well">
+                <h5>Year 
+                  <select id="selDataset" onchange="optionChanged(this.value)"></select>
+                </h5>                
+              </div>
+            </h5>
             <div id="map"></div>
           </div>          
-        </div>
-        <div class="col-md-4">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card bar-container">2 - BAR CHART
-                      
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card scatter-container">3 - SCATTER PLOT
-                      
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-8"> 
+        </div>   
+        <div class="col-md-4"> 
           <div class="card table-container">
             4 - TABLE
-            <br>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. 
+            <table>
+              <tr>
+                  <td>ancient</td>
+                  <td>mother</td>
+                  <td>drop</td>
+                  <td>wood</td>
+                  <td>mysterious</td>
+              </tr>
+              <tr>
+                  <td>gain</td>
+                  <td>topic</td>
+                  <td>particles</td>
+                  <td>cloth</td>
+                  <td>want</td>
+              </tr>
+              <tr>
+                  <td>declared</td>
+                  <td>dig</td>
+                  <td>modern</td>
+                  <td>blood</td>
+                  <td>stared</td>
+              </tr>
+              <tr>
+                  <td>read</td>
+                  <td>railroad</td>
+                  <td>mouth</td>
+                  <td>dream</td>
+                  <td>best</td>
+              </tr>
+              <tr>
+                  <td>best</td>
+                  <td>sick</td>
+                  <td>dark</td>
+                  <td>stock</td>
+                  <td>shop</td>
+              </tr>
+              <tr>
+                  <td>easily</td>
+                  <td>meet</td>
+                  <td>suit</td>
+                  <td>trap</td>
+                  <td>grabbed</td>
+              </tr>
+          </table>
           </div>          
+        </div> 
+    </div>
+
+
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card bar-container">2 - BAR CHART
+          <div id="bar_plot"></div>
         </div>
-        <div class="col-md-4">5 - GAUGE PLOT
-            <div class="card gauge-container">
-              
-            </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card scatter-container">3 - SCATTER PLOT
+          <div id="scatter_plot"></div>                  
         </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card gauge-container"> 5 - PIE CHART
+          <div id="pie_plot"></div>   
+        </div>
+      </div>
     </div>
   </div>
 
 
     <!-- JavaScript file -->
     <script type="text/javascript" src="../static/js/logic.js"></script>
-
+    <script type="text/javascript" src="../static/js/scatter_plot.js"></script>
     <!-- Import the Bootstrap JavaScript code -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
 
