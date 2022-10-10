@@ -14,6 +14,22 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(myMap);
 
+// function chooseColor(Country, Year) { 
+//   d3.json("/data").then(function(data){
+//     let resultArray = data.filter(c => c.country == Country);
+//     let resultYear = resultArray.filter(y => y.year == Year)[0];
+//     let co2 = resultYear.co2;
+
+//   })
+//   if (emissions > 1000) return'#b30000';
+//   else if (emissions > 100) return '#e34a33';
+//   else if (emissions > 50) return '#fc8d59';
+//   else if (emissions > 30) return '#fdbb84';
+//   else if (emissions > 10) return '#fdd49e';
+//   else if (emissions > 0.1) return 'lightgreen';
+//   else return "white"   
+// };
+
 
 const file_endpoint = "readjsonfile/countries1.geojson"; 
 let url = file_endpoint; 
@@ -47,21 +63,18 @@ d3.json(url).then(function(data) {
               fillOpacity: 0.5
             });
           },
-          // When a feature (neighborhood) is clicked, it enlarges to fit the screen.
+          // When a feature (country) is clicked, it enlarges to fit the screen.
           click: function(event) {
             myMap.fitBounds(event.target.getBounds());
           }
         });
-        // Giving each feature a popup with information that's relevant to it
+        // Pop up to display the country name
         layer.bindPopup("<h3>" + feature.properties.ADMIN + "</h3> <hr> ");
   
       }  
     }).addTo(myMap);
     
   });
-
-
-
 
 function drawBarGraph(Country, Year) {
   d3.json("/data").then(function(data) {
@@ -110,16 +123,36 @@ function drawBarGraph(Country, Year) {
   });
 };
 
+// //--- CHANGING VALUE FUNCTION START -----------
+// function optionChanged(sampleId)
+// {
+//     console.log(`optionChanged, new value: ${sampleId}`);
+//     drawBarGraph(initialCountry, initialYear);
+//     drawPiePlot(initialCountry, initialYear);
+//     drawGaguePlot(initialCountry, initialYear);
+//     drawCountryInfo(initialCountry, initialYear);
+// }
+// //--- CHANGING VALUE FUNCTION END -----------
+
+
+// //--- DASHBOARD FUNCTION START -----------
 // function InitDashboard() {
 //     console.log("InitDashboard");
 
 //     let selector = d3.select("#selDataset");
-
+ 
 //     d3.json("/data").then(function(data) {
-//         console.log(data);
-        
-//   }
+//         console.log(data);        
+//   })
+//   let initialCountry = "United States of America";
+//   let initialYear = 2020;
+
+//   drawBarGraph(initialCountry, initialYear);
+//   drawPiePlot(initialCountry, initialYear);
+//   drawGaguePlot(initialCountry, initialYear);
+//   drawCountryInfo(initialCountry, initialYear);
 // };
+// //--- DASHBOARD FUNCTION END -----------
 
 // InitDashboard()
 

@@ -34,30 +34,42 @@
 
   </head>
   <body>
-    <header>
-      
-      <h1>Global Carbon Emissions Dashboard</h1>
-     
-    </header>
-    
 
-    <!-- Year dropdown selector -->
- 
+    <br>
+
+    <!-- Dashboard header -->
+    <div class="container">
+      <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+          <header>      
+            <h1>Global Carbon Emissions Dashboard</h1>           
+          </header>
+        </div>
+        <div class="col-md-1"></div>
+      </div>
+    </div>
+    <br> 
     
+    <!-- html layout for maps and plots and tables -->
     <div class="container">
       <div class="row">
         <div class="col-md-8">
+          <!-- create div to hold map -->
           <div class="card map-container">
             <h5 class="card-header">
               <div class="well">
+                <!-- Year dropdown selector -->
                 <h5>Year 
                   <select id="selDataset" onchange="optionChanged(this.value)"></select>
                 </h5>                
               </div>
             </h5>
+            <!-- specify location of id/map to be referenced in logic.js -->
             <div id="map"></div>
           </div>          
         </div>   
+        <!-- create div to hold table -->
         <div class="col-md-4"> 
           <div class="card table-container">
             4 - TABLE
@@ -108,21 +120,20 @@
           </div>          
         </div> 
     </div>
-
-
+    <!-- create div to hold first plot -->
     <div class="row">
       <div class="col-md-4">
         <div class="card bar-container">2 - BAR CHART
           <div id="bar_plot"></div>
         </div>
       </div>
-
+    <!-- create div to hold second plot -->
       <div class="col-md-4">
         <div class="card scatter-container">3 - SCATTER PLOT
           <div id="scatter_plot"></div>                  
         </div>
       </div>
-
+    <!-- create div to hold third plot -->
       <div class="col-md-4">
         <div class="card gauge-container"> 5 - PIE CHART
           <div id="pie_plot"></div>   
