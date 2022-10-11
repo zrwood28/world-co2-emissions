@@ -19,67 +19,74 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 //     let resultArray = data.filter(c => c.country == Country);
 //     let resultYear = resultArray.filter(y => y.year == Year)[0];
 //     let co2 = resultYear.co2;
+//     console.log("CO2", co2)
+//     if (co2 > 1000) return'#b30000';
+//     else if (co2 > 100) return '#e34a33';
+//     else if (co2 > 50) return '#fc8d59';
+//     else if (co2 > 30) return '#fdbb84';
+//     else if (co2 > 10) return '#fdd49e';
+//     else if (co2 > 0.1) return 'lightgreen';
+//     else return "white"  
+//     })    
 
-//   })
-//   if (emissions > 1000) return'#b30000';
-//   else if (emissions > 100) return '#e34a33';
-//   else if (emissions > 50) return '#fc8d59';
-//   else if (emissions > 30) return '#fdbb84';
-//   else if (emissions > 10) return '#fdd49e';
-//   else if (emissions > 0.1) return 'lightgreen';
-//   else return "white"   
 // };
 
 
 const file_endpoint = "readjsonfile/countries1.geojson"; 
 let url = file_endpoint; 
 // Get the GeoJSON data and plot it on the map
-d3.json(url).then(function(data) {
-    L.geoJson(data, {
-        style: function(feature) {
-            return {
-              color: "white",
-              // Call the chooseColor() function to decide which color to color our neighborhood. (The color is based on the borough.)
-              fillColor: "lightgreen",
-              fillOpacity: 0.5,
-              weight: 1.5
-            };
-          },
-        // This is called on each feature.
-        onEachFeature: function(feature, layer) {
-        // Set the mouse events to change the map styling.
-        layer.on({
-          // When a user's mouse cursor touches a map feature, the mouseover event calls this function, which makes that feature's opacity change to 90% so that it stands out.
-          mouseover: function(event) {
-            layer = event.target;
-            layer.setStyle({
-              fillOpacity: 0.9
-            });
-          },
-          // When the cursor no longer hovers over a map feature (that is, when the mouseout event occurs), the feature's opacity reverts back to 50%.
-          mouseout: function(event) {
-            layer = event.target;
-            layer.setStyle({
-              fillOpacity: 0.5
-            });
-          },
-          // When a feature (country) is clicked, it enlarges to fit the screen.
-          click: function(event) {
-            myMap.fitBounds(event.target.getBounds());
-          }
-        });
-        // Pop up to display the country name
-        layer.bindPopup("<h3>" + feature.properties.ADMIN + "</h3> <hr> ");
+function drawgeoJsonMap() {
+  d3.json(url).then(function(data) {
+      L.geoJson(data, {
+          style: function(feature) {
+              return {
+                color: "white",
+                // Call the chooseColor() function to decide which color to color our neighborhood. (The color is based on the borough.)
+                fillColor: "lightgreen",
+                fillOpacity: 0.5,
+                weight: 1.5
+              };
+            },
+          // This is called on each feature.
+          onEachFeature: function(feature, layer) {
+          // Set the mouse events to change the map styling.
+          layer.on({
+            // When a user's mouse cursor touches a map feature, the mouseover event calls this function, which makes that feature's opacity change to 90% so that it stands out.
+            mouseover: function(event) {
+              layer = event.target;
+              layer.setStyle({
+                fillOpacity: 0.9
+              });
+            },
+            // When the cursor no longer hovers over a map feature (that is, when the mouseout event occurs), the feature's opacity reverts back to 50%.
+            mouseout: function(event) {
+              layer = event.target;
+              layer.setStyle({
+                fillOpacity: 0.5
+              });
+            },
+            // When a feature (country) is clicked, it enlarges to fit the screen.
+            click: function(event) {
+              myMap.fitBounds(event.target.getBounds());
+              let clickedCountry = feature.properties.ISO_A3
+              console.log(clickedCountry)
+              drawBarGraph(clickedCountry,1980);
+            } 
+          });
+          // Pop up to display the country name
+          layer.bindPopup("<h3>" + feature.properties.ADMIN + "</h3> <hr> ");
+          
+        }  
+      }).addTo(myMap);      
+    });
+  };
   
-      }  
-    }).addTo(myMap);
-    
-  });
 
 function drawBarGraph(Country, Year) {
   d3.json("/data").then(function(data) {
     console.log(data)
-    let resultArray = data.filter(c => c.country == Country);
+    console.log("HELLO", Country, Year)
+    let resultArray = data.filter(c => c.iso_code == Country);
     let resultYear = resultArray.filter(y => y.year == Year)[0];
     let cement_co2 = resultYear.cement_co2;
     let cement_co2_per_capita = resultYear.cement_co2_per_capita;
@@ -118,42 +125,26 @@ function drawBarGraph(Country, Year) {
     let layout={
         title: `${Country} in the year ${Year}`
     }
-    Plotly.newPlot("pie_plot", barArray, layout);
-    
+    Plotly.newPlot("pie_plot", barArray, layout);    
   });
 };
 
-// //--- CHANGING VALUE FUNCTION START -----------
-// function optionChanged(sampleId)
-// {
-//     console.log(`optionChanged, new value: ${sampleId}`);
-//     drawBarGraph(initialCountry, initialYear);
-//     drawPiePlot(initialCountry, initialYear);
-//     drawGaguePlot(initialCountry, initialYear);
-//     drawCountryInfo(initialCountry, initialYear);
-// }
-// //--- CHANGING VALUE FUNCTION END -----------
 
 
-// //--- DASHBOARD FUNCTION START -----------
-// function InitDashboard() {
-//     console.log("InitDashboard");
+//--- DASHBOARD FUNCTION START -----------
+function InitDashboard() {
+  console.log("InitDashboard");
 
-//     let selector = d3.select("#selDataset");
- 
-//     d3.json("/data").then(function(data) {
-//         console.log(data);        
-//   })
-//   let initialCountry = "United States of America";
-//   let initialYear = 2020;
 
-//   drawBarGraph(initialCountry, initialYear);
-//   drawPiePlot(initialCountry, initialYear);
-//   drawGaguePlot(initialCountry, initialYear);
-//   drawCountryInfo(initialCountry, initialYear);
-// };
-// //--- DASHBOARD FUNCTION END -----------
+  drawgeoJsonMap();
+  // drawBarGraph("Canada", 1980);
+  
+  // drawPiePlot(initialCountry, initialYear);
+  // drawGaguePlot(initialCountry, initialYear);
+  // drawCountryInfo(initialCountry, initialYear);
+};
+//--- DASHBOARD FUNCTION END -----------
 
-// InitDashboard()
+InitDashboard();
 
-drawBarGraph("Afghanistan",1978)
+// drawBarGraph("Afghanistan",1978)
