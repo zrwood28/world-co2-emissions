@@ -68,9 +68,11 @@ function drawgeoJsonMap() {
             // When a feature (country) is clicked, it enlarges to fit the screen.
             click: function(event) {
               myMap.fitBounds(event.target.getBounds());
-              let clickedCountry = feature.properties.ISO_A3
-              console.log(clickedCountry)
-              drawBarGraph(clickedCountry,1980);
+              let clickedCountry = feature.properties.ISO_A3;
+              console.log(clickedCountry);
+              let selector = d3.select("#selDataset");
+              let yearDefault = selector.property("value");
+              drawBarGraph(clickedCountry,yearDefault);
             } 
           });
           // Pop up to display the country name
