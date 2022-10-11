@@ -4,12 +4,10 @@ function optionChanged(yearSelected) {
 
 
     console.log(`User selected year: ${yearSelected}`);
-    let selector = d3.selectAll('h4').text()
+    let selector=d3.select("#iso").text()
     console.log(selector)
     drawBarGraph(selector,yearSelected)
-    drawPiePlot(selector,yearSelected)
-    
-    
+    drawPiePlot(selector,yearSelected)   
 };
 
 

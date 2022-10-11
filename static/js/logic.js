@@ -16,7 +16,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 // function chooseColor(Country, Year) { 
 //   d3.json("/data").then(function(data){
-//     let resultArray = data.filter(c => c.country == Country);
+//     let resultArray = data.filter(c => c.iso_code == Country);
 //     let resultYear = resultArray.filter(y => y.year == Year)[0];
 //     let co2 = resultYear.co2;
 //     console.log("CO2", co2)
@@ -26,7 +26,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 //     else if (co2 > 30) return '#fdbb84';
 //     else if (co2 > 10) return '#fdd49e';
 //     else if (co2 > 0.1) return 'lightgreen';
-//     else return "white"  
+//     else return "blue"  
 //     })    
 
 // };
@@ -74,10 +74,11 @@ function drawgeoJsonMap() {
               let yearDefault = selector.property("value");
               drawBarGraph(clickedCountry,yearDefault);
               drawPiePlot(clickedCountry,yearDefault);
+              d3.select("#iso").text(feature.properties.ISO_A3)
             } 
           });
           // Pop up to display the country name
-          layer.bindPopup("<h3>" + feature.properties.ADMIN + "</h3> <hr>" + "<h4>" + feature.properties.ISO_A3 + "</h4>");
+          layer.bindPopup("<h3>" + feature.properties.ADMIN + "</h3> <hr>");
           
         }  
       }).addTo(myMap);      
@@ -87,8 +88,7 @@ function drawgeoJsonMap() {
 
 function drawBarGraph(Country, Year) {
     d3.json("/data").then(function(data) {
-      console.log(data)
-      console.log("HELLO", Country, Year)
+      console.log(data);
       let resultArray = data.filter(c => c.iso_code == Country);
       let resultYear = resultArray.filter(y => y.year == Year)[0];
       let cement_co2 = resultYear.cement_co2;
@@ -113,10 +113,7 @@ function drawBarGraph(Country, Year) {
       let share_global_co2 = resultYear.share_global_co2;
       let share_global_cumulative_co2 = resultYear.share_global_cumulative_co2;
       let yearNumber = resultYear.year;
-      console.log("all years", resultArray)
-      console.log("specific year", resultYear)
-      console.log("gdp", gdp)
-  
+
       let trace1 = {
           
           x: ["cement_co2", "coal_co2", "flaring_co2", "gas_co2", "oil_co2", "other_co2"],
@@ -133,8 +130,7 @@ function drawBarGraph(Country, Year) {
 
 function drawPiePlot(Country, Year) {
   d3.json("/data").then(function(data) {
-    console.log(data)
-    console.log("HELLO", Country, Year)
+    console.log(data);
     let resultArray = data.filter(c => c.iso_code == Country);
     let resultYear = resultArray.filter(y => y.year == Year)[0];
     let cement_co2 = resultYear.cement_co2;
@@ -159,9 +155,6 @@ function drawPiePlot(Country, Year) {
     let share_global_co2 = resultYear.share_global_co2;
     let share_global_cumulative_co2 = resultYear.share_global_cumulative_co2;
     let yearNumber = resultYear.year;
-    console.log("all years", resultArray)
-    console.log("specific year", resultYear)
-    console.log("gdp", gdp)
 
     let trace1 = {
         
@@ -182,17 +175,9 @@ function drawPiePlot(Country, Year) {
 //--- DASHBOARD FUNCTION START -----------
 function InitDashboard() {
   console.log("InitDashboard");
-
-
   drawgeoJsonMap();
-  // drawBarGraph("Canada", 1980);
-  
-  // drawPiePlot(initialCountry, initialYear);
-  // drawGaguePlot(initialCountry, initialYear);
-  // drawCountryInfo(initialCountry, initialYear);
+
 };
 //--- DASHBOARD FUNCTION END -----------
 
 InitDashboard();
-
-// drawBarGraph("Afghanistan",1978)
