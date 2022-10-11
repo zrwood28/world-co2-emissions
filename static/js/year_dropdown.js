@@ -1,9 +1,13 @@
-console.log("yeardropdown connected");
+// console.log("yeardropdown connected");
 
 function optionChanged(yearSelected) {
 
-    console.log(`User selected year: ${yearSelected}`);
 
+    console.log(`User selected year: ${yearSelected}`);
+    let selector=d3.select("#iso").text()
+    console.log(selector)
+    drawBarGraph(selector,yearSelected)
+    drawPiePlot(selector,yearSelected)   
 };
 
 
@@ -30,7 +34,10 @@ function dropdown() {
     };
     
     let yearDefault = selector.property("value");
-
+    // let defaultYear = 2020;
+    let defaultCountry = "USA";
+    drawBarGraph(defaultCountry, yearDefault)
+    drawPiePlot(defaultCountry,yearDefault)
 };
 
 dropdown();
