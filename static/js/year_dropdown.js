@@ -38,9 +38,10 @@ function dropdown() {
     let yearDefault = selector.property("value");
     // let defaultYear = 2020;
     let defaultCountry = "USA";
-    drawBarGraph(defaultCountry, yearDefault)
-    drawPiePlot(defaultCountry,yearDefault)
-    drawScatterPlot(defaultCountry, yearDefault)
+    drawBarGraph(defaultCountry, yearDefault);
+    drawPiePlot(defaultCountry,yearDefault);
+    drawScatterPlot(defaultCountry, yearDefault);
+    drawTable(defaultCountry, yearDefault);
 };
 
 dropdown();

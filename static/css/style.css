@@ -36,10 +36,10 @@ body {
     width: 425px;
 }
 
-.table-container {
+/* .table-container {
     height: 500px;
     width: 425px;
-}
+} */
 
 .gauge-container {
     height: 200px;
@@ -61,10 +61,10 @@ body {
         width: 225px;
     }
     
-    .table-container {
+    /* .table-container {
         height: 100px;
         width: 425px;
-    }
+    } */
     
     .gauge-container {
         height: 100px;
@@ -72,4 +72,9 @@ body {
     }
 
   }
+
+#table {
+    /* height: 200%; */
+    /* padding: 0px; */
+}
   
