@@ -17,11 +17,8 @@
     <!-- D3 library -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
 
-    <!-- Recharts library (info from: https://recharts.org/en-US/guide)-->
-    <script src="https://unpkg.com/react/umd/react.production.min.js"></script>
-    <script src="https://unpkg.com/react-dom/umd/react-dom.production.min.js"></script>
-    <script src="https://unpkg.com/prop-types/prop-types.min.js"></script>
-    <script src="https://unpkg.com/recharts/umd/Recharts.js"></script>
+    <!-- Charts.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 
     <!-- Bring in the Bootstrap stylesheet -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
@@ -38,7 +35,6 @@
     <br>
 
     <!-- Dashboard header -->
-    <!-- <div class="container">
       <div class="row">
         <div class="col-md-1"></div>
         <div class="col-md-10">
@@ -48,20 +44,11 @@
         </div>
         <div class="col-md-1"></div>
       </div>
-    </div>
-    <br> -->
-
-    <div class = "container">
-      <div class = "page-header">
-        <h1>Global Carbon Emissions Dashboard</h1>
-      </div>
-    </div>
-    
-    
+    <br> 
     
     <!-- html layout for maps and plots and tables -->
     <div class="container">
-      <div class="row">
+      <div class="row row1">
         <div class="col-md-8">
           <!-- create div to hold map -->
           <div class="card map-container">
@@ -134,19 +121,23 @@
     <!-- create div to hold first plot -->
     <div class="row">
       <div class="col-md-4">
-        <div class="card bar-container">2 - BAR CHART
+        <div class="card gauge-container">
+          <h5 class="card-header">% Contribution to Total World Emissions</h5>
           <div id="bar_plot"></div>
         </div>
       </div>
     <!-- create div to hold second plot -->
       <div class="col-md-4">
-        <div class="card scatter-container">3 - SCATTER PLOT
-          <div id="scatter_plot"></div>                  
+        <div class="card scatter-container">
+          <h5 class="card-header">Total Co2 Emissions by Year</h5>            
+          <br><br><br><br><br><br><br><br>
+          <canvas id="scatter_plot"></canvas>                  
         </div>
       </div>
     <!-- create div to hold third plot -->
       <div class="col-md-4">
-        <div class="card gauge-container"> 5 - PIE CHART
+        <div class="card pie-container">
+          <h5 class="card-header">Contribution to Total Co2 Emissions</h5>
           <div id="pie_plot"></div>   
         </div>
       </div>

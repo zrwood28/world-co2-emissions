@@ -28,24 +28,6 @@ myMap.options.maxZoom = 6;
 myMap.fire("zoomend");
 
 
-// function chooseColor(Country, Year) { 
-//   d3.json("/data").then(function(data){
-//     let resultArray = data.filter(c => c.iso_code == Country);
-//     let resultYear = resultArray.filter(y => y.year == Year)[0];
-//     let co2 = resultYear.co2;
-//     console.log("CO2", co2)
-//     if (co2 > 1000) return'#b30000';
-//     else if (co2 > 100) return '#e34a33';
-//     else if (co2 > 50) return '#fc8d59';
-//     else if (co2 > 30) return '#fdbb84';
-//     else if (co2 > 10) return '#fdd49e';
-//     else if (co2 > 0.1) return 'lightgreen';
-//     else return "blue"  
-//     })    
-
-// };
-
-
 const file_endpoint = "readjsonfile/countries1.geojson"; 
 let url = file_endpoint; 
 // Get the GeoJSON data and plot it on the map
@@ -86,10 +68,11 @@ function drawgeoJsonMap() {
               console.log(clickedCountry);
               let selector = d3.select("#selDataset");
               let yearDefault = selector.property("value");
-              drawBarGraph(clickedCountry,yearDefault);
+              drawGaugePlot(clickedCountry,yearDefault);
               drawPiePlot(clickedCountry,yearDefault);
               drawScatterPlot(clickedCountry, yearDefault);
               drawTable(clickedCountry, yearDefault);
+              drawGaugePlot(clickedCountry, yearDefault);
               d3.select("#iso").text(feature.properties.ISO_A3)
             } 
           });
@@ -100,48 +83,6 @@ function drawgeoJsonMap() {
     });
   };
 
-
-function drawBarGraph(Country, Year) {
-    d3.json("/data").then(function(data) {
-      console.log(data);
-      let resultArray = data.filter(c => c.iso_code == Country);
-      let resultYear = resultArray.filter(y => y.year == Year)[0];
-      let cement_co2 = resultYear.cement_co2;
-      let cement_co2_per_capita = resultYear.cement_co2_per_capita;
-      let co2 = resultYear.co2;
-      let co2_per_capita = resultYear.co2_per_capita;
-      let coal_co2 = resultYear.coal_co2;
-      let coal_co2_per_capita = resultYear.coal_co2_per_capita;
-      let countryName = resultYear.country;
-      let flaring_co2 = resultYear.flaring_co2;
-      let flaring_co2_per_capita = resultYear.flaring_co2_per_capita;
-      let gas_co2 = resultYear.gas_co2;
-      let gas_co2_per_capita = resultYear.gas_co2_per_capita;
-      let gdp = resultYear.gdp;
-      let id = resultYear.id;
-      let iso_code = resultYear.iso_code;
-      let oil_co2 = resultYear.oil_co2;
-      let oil_co2_per_capita = resultYear.oil_co2_per_capita;
-      let other_co2_per_capita = resultYear.other_co2_per_capita;
-      let other_industry_co2 = resultYear.other_industry_co2;
-      let population = resultYear.population;
-      let share_global_co2 = resultYear.share_global_co2;
-      let share_global_cumulative_co2 = resultYear.share_global_cumulative_co2;
-      let yearNumber = resultYear.year;
-
-      let trace1 = {
-          
-          x: ["cement_co2", "coal_co2", "flaring_co2", "gas_co2", "oil_co2", "other_co2"],
-          y: [cement_co2, coal_co2, flaring_co2, gas_co2, oil_co2, other_industry_co2],          
-          type: "bar"
-      }
-      let barArray = [trace1]
-      let layout={
-          title: `${countryName} in the year ${Year}`
-      }
-      Plotly.newPlot("bar_plot", barArray, layout);    
-    });
-  };
 
 function drawPiePlot(Country, Year) {
   d3.json("/data").then(function(data) {
@@ -176,14 +117,21 @@ function drawPiePlot(Country, Year) {
         labels: ["cement_co2", "coal_co2", "flaring_co2", "gas_co2", "oil_co2", "other_co2"],
         type: "pie"
     }
-    let barArray = [trace1]
-    let layout={
-        title: `${countryName} in the year ${Year}`
+    let pieArray = [trace1]
+    let pieLayout={
+        title: `${countryName} in the year ${Year}`,
+        margin: {
+          b:0,
+          t:30,
+          l:5,
+          r:5,
+        }
     }
-    Plotly.newPlot("pie_plot", barArray, layout);    
+    Plotly.newPlot("pie_plot", pieArray, pieLayout);    
   });
 };
 
+// Chart.js Scatter Plot
 function drawScatterPlot(Country, Year) 
 {
   d3.json("/data").then(function(data) {
@@ -200,33 +148,27 @@ function drawScatterPlot(Country, Year)
     for (let i = 0; i < resultArray.length; i++ ) {
       let year = resultArray[i].year
       let co2Result = resultArray[i].co2
-      console.log("year", year)
 
       yearsArray.push(year);
       co2Array.push(co2Result);
     }
 
-    console.log("yearsArray:", yearsArray);
-    console.log("co2Array:", co2Array)
-
-    console.log("resultArrayLength:", resultArray.length)
-
-    let trace1 = {
-        x: yearsArray,
-        y: co2Array,
-        mode: "markers",
-        type: "scatter"
-    };
-
-    let config = {responsive: true};
-
-    let scatterArray = [trace1];
-
-    let layout={
-        title: `${countryName}`
-    };
-
-    Plotly.newPlot("scatter_plot", scatterArray, layout, config);    
+    var ctx = document.getElementById("scatter_plot").getContext("2d");
+    var myChart = new Chart(ctx, {
+      type: "line",
+      data: {
+        labels: yearsArray,
+        datasets: [
+          {
+            label: "CO2 Emissions",
+            data: co2Array,
+            // fill: false,
+            backgroundColor: "rgba(153,205,1,0.6)",
+            // borderColor: 'blue',
+          },
+        ],
+      },
+    });
   });
 };
 
@@ -259,51 +201,53 @@ function drawTable(Country, Year){
     let share_global_cumulative_co2 = resultYear.share_global_cumulative_co2;
     let yearNumber = resultYear.year;
 
-    var values = [
+    let values = [
       ['Population', 'GDP', 'CO2 per Capita', 'Global CO2 Contribution (%)'],
       [population, gdp, co2_per_capita, share_global_co2],
    ]
 
-    var data = [{
+    let tabledata = [{
       type: 'table',
       columnorder: [1,2],
       columnwidth: [5, 5],
       margin: {top:0},
       header: {
-        values: [[countryName], [yearNumber]],
-        align: "center",
+        values: [[countryName],  [`Year: ${yearNumber}`]],
+        align: "center", height: 35,
         line: {width: 1, color: 'black'},
         fill: {color: "grey"},
-        font: {family: "Arial", size: 18, color: "white"}
+        font: {family: "Arial", size: 25, color: "white"}
       },
       cells: {
         values: values,
-        align: "center",
+        align: "center", height: 35,
         line: {color: "black", width: 1},
         font: {family: "Arial", size: 16, color: ["black"]}
       }
     }]
 
-    Plotly.newPlot('table', data);
+    let tablelayout = {
+      title:"Miscallaneous Country Info",
+      margin: {
+        b:0,
+        t:30,
+        l:5,
+        r:5,
+      }
+    }
 
-  
+    Plotly.newPlot('table', tabledata, tablelayout);
   });
-
-  
 };
 
-
-
-
-// }
 
 function drawGaugePlot(Country, Year) {
   d3.json("/data").then(function(data) {
     console.log(data)
-    let resultArray = data.filter(c => c.country == Country);
+    let resultArray = data.filter(c => c.iso_code == Country);
     let resultYear = resultArray.filter(y => y.year == Year);
     let result = resultYear[0]
-
+    let countryName = resultYear.country;
     let co2 = result.co2;
     let yearNumber = result.year;
     let share_global_co2 = result.share_global_co2;
@@ -327,87 +271,15 @@ function drawGaugePlot(Country, Year) {
 
       // Create a layout object
     let GaugeLayout = {
-          title:{text: `Co2 contribution by ${Country} in the year ${yearNumber}`, font:{size: 15}},
+          title:{text: `Co2 contribution by ${countryName} in the year ${yearNumber}`, font:{size: 15}},
           color : 'blue',
-          width: 500,
-          height: 300 
-          
+
       };
 
       // Add plotly
-    Plotly.newPlot("bar_plot", GaugeDataArray, GaugeLayout);
-  
-  
-  
+    Plotly.newPlot("gauge_plot", GaugeDataArray, GaugeLayout);
   })
-
 };
-
-// function drawRadarChart(Country, Year){
-//   d3.json("/data").then(function(data) {
-//     console.log(data)
-//     let resultArray = data.filter(c => c.country == Country);
-//     let resultYear = resultArray.filter(y => y.year == Year)[0];
-//     let cement_co2 = resultYear.cement_co2;
-//     let cement_co2_per_capita = resultYear.cement_co2_per_capita;
-//     let co2 = resultYear.co2;
-//     let co2_per_capita = resultYear.co2_per_capita;
-//     let coal_co2 = resultYear.coal_co2;
-//     let coal_co2_per_capita = resultYear.coal_co2_per_capita;
-//     let countryName = resultYear.country;
-//     let flaring_co2 = resultYear.flaring_co2;
-//     let flaring_co2_per_capita = resultYear.flaring_co2_per_capita;
-//     let gas_co2 = resultYear.gas_co2;
-//     let gas_co2_per_capita = resultYear.gas_co2_per_capita;
-//     let gdp = resultYear.gdp;
-//     let id = resultYear.id;
-//     let iso_code = resultYear.iso_code;
-//     let oil_co2 = resultYear.oil_co2;
-//     let oil_co2_per_capita = resultYear.oil_co2_per_capita;
-//     let other_co2_per_capita = resultYear.other_co2_per_capita;
-//     let other_industry_co2 = resultYear.other_industry_co2;
-//     let population = resultYear.population;
-//     let share_global_co2 = resultYear.share_global_co2;
-//     let share_global_cumulative_co2 = resultYear.share_global_cumulative_co2;
-//     let yearNumber = resultYear.year;
-
-
-//     let dataset = [cement_co2, coal_co2, flaring_co2, gas_co2, oil_co2, other_industry_co2]
-//     // let labels = ["cement_co2", "coal_co2", "flaring_co2", "gas_co2", "oil_co2", "other_co2"]
-
-
-//     let datatrace = {
-//         labels: ["cement_co2", "coal_co2", "flaring_co2", "gas_co2", "oil_co2", "other_co2"],
-//         datasets: [{
-//           label:`${Country} in the year ${Year}`,
-//           data: dataset
-//           fill: true,
-//           backgroundColor: 'rgba(255, 99, 132, 0.2)',
-//           borderColor: 'rgb(255, 99, 132)',
-//           pointBackgroundColor: 'rgb(255, 99, 132)',
-//           pointBorderColor: '#fff',
-//           pointHoverBackgroundColor: '#fff',
-//           pointHoverBorderColor: 'rgb(255, 99, 132)'
-  
-
-//         }]
-//    };
-
-//    let trace2 = {
-//       type: 'radar',
-//       data: datatrace,
-//       options: {
-//         elements: {
-//           line: {
-//             borderWidth: 3
-//           }
-//         }
-//       },
-//    };
-
-//    }
-
-// }
 
 
 //--- DASHBOARD FUNCTION START -----------
