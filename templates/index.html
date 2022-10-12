@@ -60,9 +60,10 @@
             <h5 class="card-header">
               <div class="well">
                 <!-- Year dropdown selector -->
-                <h5>Year 
+                <span></span><h5>Year 
                   <select id="selDataset" onchange="optionChanged(this.value)"></select>
-                </h5>                
+                </h5>
+                <h6 id="iso">USA</h6>              
               </div>
             </h5>
             <!-- specify location of id/map to be referenced in logic.js -->
@@ -147,7 +148,6 @@
 
     <!-- JavaScript file -->
     <script type="text/javascript" src="static/js/logic.js"></script>
-    <!-- <script type="text/javascript" src="static/js/scatter_plot.js"></script> -->
     <script type="text/javascript" src="static/js/year_dropdown.js"></script>
 
     <!-- Import the Bootstrap JavaScript code -->

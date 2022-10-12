@@ -16,7 +16,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 // function chooseColor(Country, Year) { 
 //   d3.json("/data").then(function(data){
-//     let resultArray = data.filter(c => c.country == Country);
+//     let resultArray = data.filter(c => c.iso_code == Country);
 //     let resultYear = resultArray.filter(y => y.year == Year)[0];
 //     let co2 = resultYear.co2;
 //     console.log("CO2", co2)
@@ -26,7 +26,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 //     else if (co2 > 30) return '#fdbb84';
 //     else if (co2 > 10) return '#fdd49e';
 //     else if (co2 > 0.1) return 'lightgreen';
-//     else return "white"  
+//     else return "blue"  
 //     })    
 
 // };
@@ -76,11 +76,11 @@ function drawgeoJsonMap() {
               drawPiePlot(clickedCountry,yearDefault);
               drawScatterPlot(clickedCountry, yearDefault);
               drawTable(clickedCountry, yearDefault);
+              d3.select("#iso").text(feature.properties.ISO_A3)
             } 
           });
           // Pop up to display the country name
           layer.bindPopup("<h3>" + feature.properties.ADMIN + "</h3> <hr>" + "<h4>" + feature.properties.ISO_A3 + "</h4>");
-          
         }  
       }).addTo(myMap);      
     });
@@ -89,8 +89,7 @@ function drawgeoJsonMap() {
 
 function drawBarGraph(Country, Year) {
     d3.json("/data").then(function(data) {
-      console.log(data)
-      console.log("HELLO", Country, Year)
+      console.log(data);
       let resultArray = data.filter(c => c.iso_code == Country);
       let resultYear = resultArray.filter(y => y.year == Year)[0];
       let cement_co2 = resultYear.cement_co2;
@@ -115,10 +114,7 @@ function drawBarGraph(Country, Year) {
       let share_global_co2 = resultYear.share_global_co2;
       let share_global_cumulative_co2 = resultYear.share_global_cumulative_co2;
       let yearNumber = resultYear.year;
-      // console.log("all years", resultArray)
-      // console.log("specific year", resultYear)
-      // console.log("gdp", gdp)
-  
+
       let trace1 = {
           
           x: ["cement_co2", "coal_co2", "flaring_co2", "gas_co2", "oil_co2", "other_co2"],
@@ -135,8 +131,6 @@ function drawBarGraph(Country, Year) {
 
 function drawPiePlot(Country, Year) {
   d3.json("/data").then(function(data) {
-    console.log(data)
-    console.log("HELLO", Country, Year)
     let resultArray = data.filter(c => c.iso_code == Country);
     let resultYear = resultArray.filter(y => y.year == Year)[0];
     let cement_co2 = resultYear.cement_co2;
@@ -161,9 +155,6 @@ function drawPiePlot(Country, Year) {
     let share_global_co2 = resultYear.share_global_co2;
     let share_global_cumulative_co2 = resultYear.share_global_cumulative_co2;
     let yearNumber = resultYear.year;
-    // console.log("all years", resultArray)
-    // console.log("specific year", resultYear)
-    // console.log("gdp", gdp)
 
     let trace1 = {
         
@@ -292,22 +283,125 @@ function drawTable(Country, Year){
 
 // }
 
+function drawGaugePlot(Country, Year) {
+  d3.json("/data").then(function(data) {
+    console.log(data)
+    let resultArray = data.filter(c => c.country == Country);
+    let resultYear = resultArray.filter(y => y.year == Year);
+    let result = resultYear[0]
+
+    let co2 = result.co2;
+    let yearNumber = result.year;
+    let share_global_co2 = result.share_global_co2;
+    let GaugeData = {
+      value : share_global_co2 , domain: {x:(0,100)}, gauge:{axis : {range: [0,100], tickwidth: 1, tickcolor: "black", dtick: 10, nticks: 10 }, bar: { color: "darkolivegreen" , thickness: 1}
+      }, step:[
+        { range: [0, 10], color : "#FF0000" },
+        { range: [30, 40], color: "lightgrey" },
+        { range: [10, 20], color: "whitesmoke" },
+        { range: [20, 30], color: "gainsboro" },
+        { range: [40, 50], color: "silver" },
+        { range: [50, 60], color: "darkgrey" },
+        { range: [60, 70], color: "slategrey" },
+        { range: [70, 80], color: "grey" },
+        { range: [80, 90], color: "dimgrey" },
+        { range: [90, 100], color: "black" }
+      ], type: "indicator",
+      mode: "gauge+number"};
+    
+    let GaugeDataArray = [GaugeData];
+
+      // Create a layout object
+    let GaugeLayout = {
+          title:{text: `Co2 contribution by ${Country} in the year ${yearNumber}`, font:{size: 15}},
+          color : 'blue',
+          width: 500,
+          height: 300 
+          
+      };
+
+      // Add plotly
+    Plotly.newPlot("bar_plot", GaugeDataArray, GaugeLayout);
+  
+  
+  
+  })
+
+};
+
+// function drawRadarChart(Country, Year){
+//   d3.json("/data").then(function(data) {
+//     console.log(data)
+//     let resultArray = data.filter(c => c.country == Country);
+//     let resultYear = resultArray.filter(y => y.year == Year)[0];
+//     let cement_co2 = resultYear.cement_co2;
+//     let cement_co2_per_capita = resultYear.cement_co2_per_capita;
+//     let co2 = resultYear.co2;
+//     let co2_per_capita = resultYear.co2_per_capita;
+//     let coal_co2 = resultYear.coal_co2;
+//     let coal_co2_per_capita = resultYear.coal_co2_per_capita;
+//     let countryName = resultYear.country;
+//     let flaring_co2 = resultYear.flaring_co2;
+//     let flaring_co2_per_capita = resultYear.flaring_co2_per_capita;
+//     let gas_co2 = resultYear.gas_co2;
+//     let gas_co2_per_capita = resultYear.gas_co2_per_capita;
+//     let gdp = resultYear.gdp;
+//     let id = resultYear.id;
+//     let iso_code = resultYear.iso_code;
+//     let oil_co2 = resultYear.oil_co2;
+//     let oil_co2_per_capita = resultYear.oil_co2_per_capita;
+//     let other_co2_per_capita = resultYear.other_co2_per_capita;
+//     let other_industry_co2 = resultYear.other_industry_co2;
+//     let population = resultYear.population;
+//     let share_global_co2 = resultYear.share_global_co2;
+//     let share_global_cumulative_co2 = resultYear.share_global_cumulative_co2;
+//     let yearNumber = resultYear.year;
+
+
+//     let dataset = [cement_co2, coal_co2, flaring_co2, gas_co2, oil_co2, other_industry_co2]
+//     // let labels = ["cement_co2", "coal_co2", "flaring_co2", "gas_co2", "oil_co2", "other_co2"]
+
+
+//     let datatrace = {
+//         labels: ["cement_co2", "coal_co2", "flaring_co2", "gas_co2", "oil_co2", "other_co2"],
+//         datasets: [{
+//           label:`${Country} in the year ${Year}`,
+//           data: dataset
+//           fill: true,
+//           backgroundColor: 'rgba(255, 99, 132, 0.2)',
+//           borderColor: 'rgb(255, 99, 132)',
+//           pointBackgroundColor: 'rgb(255, 99, 132)',
+//           pointBorderColor: '#fff',
+//           pointHoverBackgroundColor: '#fff',
+//           pointHoverBorderColor: 'rgb(255, 99, 132)'
+  
+
+//         }]
+//    };
+
+//    let trace2 = {
+//       type: 'radar',
+//       data: datatrace,
+//       options: {
+//         elements: {
+//           line: {
+//             borderWidth: 3
+//           }
+//         }
+//       },
+//    };
+
+//    }
+
+// }
 
 
 //--- DASHBOARD FUNCTION START -----------
 function InitDashboard() {
   console.log("InitDashboard");
-
-
   drawgeoJsonMap();
-  // drawBarGraph("Canada", 1980);
-  
-  // drawPiePlot(initialCountry, initialYear);
-  // drawGaguePlot(initialCountry, initialYear);
-  // drawCountryInfo(initialCountry, initialYear);
+
 };
 //--- DASHBOARD FUNCTION END -----------
 
 InitDashboard();
-
-// drawBarGraph("Afghanistan",1978)

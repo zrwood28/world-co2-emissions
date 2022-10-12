@@ -4,13 +4,13 @@ function optionChanged(yearSelected) {
 
 
     console.log(`User selected year: ${yearSelected}`);
-    let selector = d3.selectAll('h4').text()
+
+    let selector=d3.select("#iso").text()
     console.log(selector);
     drawBarGraph(selector,yearSelected);
     drawPiePlot(selector,yearSelected);
     drawScatterPlot(selector, yearSelected);
     drawTable(selector, yearSelected);    
-    
 };
 
 
@@ -39,6 +39,7 @@ function dropdown() {
     let yearDefault = selector.property("value");
     // let defaultYear = 2020;
     let defaultCountry = "USA";
+
     drawBarGraph(defaultCountry, yearDefault);
     drawPiePlot(defaultCountry,yearDefault);
     drawScatterPlot(defaultCountry, yearDefault);
