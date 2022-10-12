@@ -4,15 +4,29 @@ let myMap = L.map("map", {
     center: [
         37.09, -95.71
     ],
-    zoom: 3
-    
+    zoom: 3,
   });
 
 // Adding a tile layer (the background map image) to our map:
 // We use the addTo() method to add objects to our map.
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    noWrap: true
 }).addTo(myMap);
+
+let swCorner = L.latLng(-90, -180);
+let neCorner = L.latLng(90, 180);
+let boundaries = L.latLngBounds(swCorner, neCorner);
+
+myMap.setMaxBounds(boundaries);
+myMap.on("drag", function() {
+  map.panInsideBounds(bounds, {animate: false});
+});
+
+myMap.options.minZoom = 2;
+myMap.options.maxZoom = 6;
+myMap.fire("zoomend");
+
 
 // function chooseColor(Country, Year) { 
 //   d3.json("/data").then(function(data){
