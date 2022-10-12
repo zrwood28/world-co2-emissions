@@ -56,6 +56,7 @@ function drawgeoJsonMap() {
               console.log(clickedCountry);
               let selector = d3.select("#selDataset");
               let yearDefault = selector.property("value");
+              drawGaugePlot(clickedCountry,yearDefault);
               drawPiePlot(clickedCountry,yearDefault);
               drawScatterPlot(clickedCountry, yearDefault);
               drawTable(clickedCountry, yearDefault);
@@ -69,6 +70,7 @@ function drawgeoJsonMap() {
       }).addTo(myMap);      
     });
   };
+
 
 function drawPiePlot(Country, Year) {
   d3.json("/data").then(function(data) {
@@ -117,6 +119,7 @@ function drawPiePlot(Country, Year) {
   });
 };
 
+// Chart.js Scatter Plot
 function drawScatterPlot(Country, Year) 
 {
   d3.json("/data").then(function(data) {
@@ -133,38 +136,27 @@ function drawScatterPlot(Country, Year)
     for (let i = 0; i < resultArray.length; i++ ) {
       let year = resultArray[i].year
       let co2Result = resultArray[i].co2
-      console.log("year", year)
 
       yearsArray.push(year);
       co2Array.push(co2Result);
     }
 
-    console.log("yearsArray:", yearsArray);
-    console.log("co2Array:", co2Array)
-
-    console.log("resultArrayLength:", resultArray.length)
-
-    let trace1 = {
-        x: yearsArray,
-        y: co2Array,
-        mode: "markers",
-        type: "scatter"
-    };
-
-    let config = {responsive: true};
-
-    let scatterArray = [trace1];
-
-    let layout={
-        title: `${countryName}`,
-        margin: {
-          b:20,
-          t:30,
-          l:35,
-          r:5,
-        }
-    };
-    Plotly.newPlot("scatter_plot", scatterArray, layout, config);    
+    var ctx = document.getElementById("scatter_plot").getContext("2d");
+    var myChart = new Chart(ctx, {
+      type: "line",
+      data: {
+        labels: yearsArray,
+        datasets: [
+          {
+            label: "CO2 Emissions",
+            data: co2Array,
+            // fill: false,
+            backgroundColor: "rgba(153,205,1,0.6)",
+            // borderColor: 'blue',
+          },
+        ],
+      },
+    });
   });
 };
 
@@ -212,7 +204,7 @@ function drawTable(Country, Year){
         align: "center", height: 35,
         line: {width: 1, color: 'black'},
         fill: {color: "grey"},
-        font: {family: "Arial", size: 18, color: "white"}
+        font: {family: "Arial", size: 25, color: "white"}
       },
       cells: {
         values: values,
@@ -235,6 +227,7 @@ function drawTable(Country, Year){
     Plotly.newPlot('table', tabledata, tablelayout);
   });
 };
+
 
 function drawGaugePlot(Country, Year) {
   d3.json("/data").then(function(data) {
@@ -272,11 +265,9 @@ function drawGaugePlot(Country, Year) {
       };
 
       // Add plotly
-    Plotly.newPlot("bar_plot", GaugeDataArray, GaugeLayout);  
+    Plotly.newPlot("gauge_plot", GaugeDataArray, GaugeLayout);
   })
 };
-
-
 
 
 //--- DASHBOARD FUNCTION START -----------
