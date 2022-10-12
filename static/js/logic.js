@@ -72,7 +72,6 @@ function drawgeoJsonMap() {
               drawPiePlot(clickedCountry,yearDefault);
               drawScatterPlot(clickedCountry, yearDefault);
               drawTable(clickedCountry, yearDefault);
-              drawGaugePlot(clickedCountry, yearDefault);
               d3.select("#iso").text(feature.properties.ISO_A3)
             } 
           });
@@ -247,14 +246,14 @@ function drawGaugePlot(Country, Year) {
     let resultArray = data.filter(c => c.iso_code == Country);
     let resultYear = resultArray.filter(y => y.year == Year);
     let result = resultYear[0]
-    let countryName = resultYear.country;
+    let countryName = result.country;
     let co2 = result.co2;
     let yearNumber = result.year;
     let share_global_co2 = result.share_global_co2;
     let GaugeData = {
       value : share_global_co2 , domain: {x:(0,100)}, gauge:{axis : {range: [0,100], tickwidth: 1, tickcolor: "black", dtick: 10, nticks: 10 }, bar: { color: "darkolivegreen" , thickness: 1}
-      }, step:[
-        { range: [0, 10], color : "#FF0000" },
+      }, steps:[
+        { range: [0, 10], color : "snow" },
         { range: [30, 40], color: "lightgrey" },
         { range: [10, 20], color: "whitesmoke" },
         { range: [20, 30], color: "gainsboro" },
@@ -271,8 +270,8 @@ function drawGaugePlot(Country, Year) {
 
       // Create a layout object
     let GaugeLayout = {
-          title:{text: `Co2 contribution by ${countryName} in the year ${yearNumber}`, font:{size: 15}},
-          color : 'blue',
+          title:{text: `${countryName}'s contribution in the year ${yearNumber}`, font:{size: 15}},
+          
 
       };
 
