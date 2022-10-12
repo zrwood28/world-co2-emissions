@@ -49,7 +49,6 @@ _____________
 1. Run all the cells peforming the ETL process
 1. After that close the Jupyter Notebooks and exit the Gitbash/Terminal window
 1. Navigate back to the local repo folder, right click on the local repo folder and open a new a Git Bash/Terminal window
-1. Run ``source activate PythonData38`` to activate PythonData38 environment 
 1. Type ``source activate PythonData38`` and then click ``enter`` to activate PythonData38 environment 
 1. Type ``python app.py`` and then hit ``enter``
 1. Observe that the Flask server starts and tells you which port it's running on. Don't close this window.
