@@ -35,7 +35,7 @@
     <br>
 
     <!-- Dashboard header -->
-    <div class="container">
+    
       <div class="row">
         <div class="col-md-1"></div>
         <div class="col-md-10">
@@ -45,12 +45,12 @@
         </div>
         <div class="col-md-1"></div>
       </div>
-    </div>
+   
     <br> 
     
     <!-- html layout for maps and plots and tables -->
     <div class="container">
-      <div class="row">
+      <div class="row row1">
         <div class="col-md-8">
           <!-- create div to hold map -->
           <div class="card map-container">
@@ -123,20 +123,23 @@
     <!-- create div to hold first plot -->
     <div class="row">
       <div class="col-md-4">
-        <div class="card bar-container">
+        <div class="card gauge-container">
+          <h5 class="card-header">% Contribution to Total World Emissions</h5>
           <div id="bar_plot"></div>
         </div>
       </div>
     <!-- create div to hold second plot -->
       <div class="col-md-4">
         <div class="card scatter-container">
+          <h5 class="card-header">Total Co2 Emissions by Year</h5>            
           <br><br><br><br><br><br><br><br>
           <canvas id="scatter_plot"></canvas>                  
         </div>
       </div>
     <!-- create div to hold third plot -->
       <div class="col-md-4">
-        <div class="card gauge-container">
+        <div class="card pie-container">
+          <h5 class="card-header">Contribution to Total Co2 Emissions</h5>
           <div id="pie_plot"></div>   
         </div>
       </div>
