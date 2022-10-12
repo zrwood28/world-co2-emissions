@@ -170,6 +170,7 @@ function drawPiePlot(Country, Year) {
   });
 };
 
+// Chart.js Scatter Plot
 function drawScatterPlot(Country, Year) 
 {
   d3.json("/data").then(function(data) {
@@ -186,33 +187,29 @@ function drawScatterPlot(Country, Year)
     for (let i = 0; i < resultArray.length; i++ ) {
       let year = resultArray[i].year
       let co2Result = resultArray[i].co2
-      console.log("year", year)
 
       yearsArray.push(year);
       co2Array.push(co2Result);
     }
 
-    console.log("yearsArray:", yearsArray);
-    console.log("co2Array:", co2Array)
+    var ctx = document.getElementById("scatter_plot").getContext("2d");
+    var myChart = new Chart(ctx, {
+      type: "line",
+      data: {
+        labels: yearsArray,
+        datasets: [
+          {
+            label: "CO2 Emissions",
+            data: co2Array,
+            // fill: false,
+            backgroundColor: "rgba(153,205,1,0.6)",
+            // borderColor: 'blue',
+          },
+        ],
+      },
+    });
 
-    console.log("resultArrayLength:", resultArray.length)
-
-    let trace1 = {
-        x: yearsArray,
-        y: co2Array,
-        mode: "markers",
-        type: "scatter"
-    };
-
-    let config = {responsive: true};
-
-    let scatterArray = [trace1];
-
-    let layout={
-        title: `${countryName}`
-    };
-
-    Plotly.newPlot("scatter_plot", scatterArray, layout, config);    
+  
   });
 };
 
@@ -260,7 +257,7 @@ function drawTable(Country, Year){
         align: "center",
         line: {width: 1, color: 'black'},
         fill: {color: "grey"},
-        font: {family: "Arial", size: 18, color: "white"}
+        font: {family: "Arial", size: 25, color: "white"}
       },
       cells: {
         values: values,
@@ -278,10 +275,6 @@ function drawTable(Country, Year){
   
 };
 
-
-
-
-// }
 
 function drawGaugePlot(Country, Year) {
   d3.json("/data").then(function(data) {
@@ -328,73 +321,6 @@ function drawGaugePlot(Country, Year) {
   })
 
 };
-
-// function drawRadarChart(Country, Year){
-//   d3.json("/data").then(function(data) {
-//     console.log(data)
-//     let resultArray = data.filter(c => c.country == Country);
-//     let resultYear = resultArray.filter(y => y.year == Year)[0];
-//     let cement_co2 = resultYear.cement_co2;
-//     let cement_co2_per_capita = resultYear.cement_co2_per_capita;
-//     let co2 = resultYear.co2;
-//     let co2_per_capita = resultYear.co2_per_capita;
-//     let coal_co2 = resultYear.coal_co2;
-//     let coal_co2_per_capita = resultYear.coal_co2_per_capita;
-//     let countryName = resultYear.country;
-//     let flaring_co2 = resultYear.flaring_co2;
-//     let flaring_co2_per_capita = resultYear.flaring_co2_per_capita;
-//     let gas_co2 = resultYear.gas_co2;
-//     let gas_co2_per_capita = resultYear.gas_co2_per_capita;
-//     let gdp = resultYear.gdp;
-//     let id = resultYear.id;
-//     let iso_code = resultYear.iso_code;
-//     let oil_co2 = resultYear.oil_co2;
-//     let oil_co2_per_capita = resultYear.oil_co2_per_capita;
-//     let other_co2_per_capita = resultYear.other_co2_per_capita;
-//     let other_industry_co2 = resultYear.other_industry_co2;
-//     let population = resultYear.population;
-//     let share_global_co2 = resultYear.share_global_co2;
-//     let share_global_cumulative_co2 = resultYear.share_global_cumulative_co2;
-//     let yearNumber = resultYear.year;
-
-
-//     let dataset = [cement_co2, coal_co2, flaring_co2, gas_co2, oil_co2, other_industry_co2]
-//     // let labels = ["cement_co2", "coal_co2", "flaring_co2", "gas_co2", "oil_co2", "other_co2"]
-
-
-//     let datatrace = {
-//         labels: ["cement_co2", "coal_co2", "flaring_co2", "gas_co2", "oil_co2", "other_co2"],
-//         datasets: [{
-//           label:`${Country} in the year ${Year}`,
-//           data: dataset
-//           fill: true,
-//           backgroundColor: 'rgba(255, 99, 132, 0.2)',
-//           borderColor: 'rgb(255, 99, 132)',
-//           pointBackgroundColor: 'rgb(255, 99, 132)',
-//           pointBorderColor: '#fff',
-//           pointHoverBackgroundColor: '#fff',
-//           pointHoverBorderColor: 'rgb(255, 99, 132)'
-  
-
-//         }]
-//    };
-
-//    let trace2 = {
-//       type: 'radar',
-//       data: datatrace,
-//       options: {
-//         elements: {
-//           line: {
-//             borderWidth: 3
-//           }
-//         }
-//       },
-//    };
-
-//    }
-
-// }
-
 
 //--- DASHBOARD FUNCTION START -----------
 function InitDashboard() {
