@@ -253,7 +253,7 @@ function drawTableTop(Year){
     }]
 
     let tablelayout = {
-      title:`Top 10 Contributors to Co2 Emisssions in ${Year}`,
+      title:`Top 10 Contributors to Co2 Emissions in ${Year}`,
       margin: {
         b:0,
         t:30,
