@@ -6,7 +6,6 @@ function optionChanged(yearSelected) {
     
     drawGaugePlot(selector,yearSelected);
     drawPiePlot(selector,yearSelected);
-    drawScatterPlot(selector, yearSelected);
     drawTable(selector, yearSelected); 
     drawTableTop(yearSelected);   
 };
