@@ -1,16 +1,14 @@
 // console.log("yeardropdown connected");
 
 function optionChanged(yearSelected) {
-
-
     console.log(`User selected year: ${yearSelected}`);
-
     let selector=d3.select("#iso").text()
-    console.log(selector);
+    
     drawGaugePlot(selector,yearSelected);
     drawPiePlot(selector,yearSelected);
     drawScatterPlot(selector, yearSelected);
-    drawTable(selector, yearSelected);    
+    drawTable(selector, yearSelected); 
+    drawTableTop(yearSelected);   
 };
 
 
@@ -44,6 +42,7 @@ function dropdown() {
     drawPiePlot(defaultCountry,yearDefault);
     drawScatterPlot(defaultCountry, yearDefault);
     drawTable(defaultCountry, yearDefault);
+    drawTableTop(yearDefault);
 };
 
 dropdown();

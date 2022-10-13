@@ -73,11 +73,12 @@ function drawgeoJsonMap() {
               drawScatterPlot(clickedCountry, yearDefault);
               drawTable(clickedCountry, yearDefault);
               drawGaugePlot(clickedCountry, yearDefault);
+              drawTableTop(yearDefault);   
               d3.select("#iso").text(feature.properties.ISO_A3)
             } 
           });
           // Pop up to display the country name
-          layer.bindPopup("<h3>" + feature.properties.ADMIN + "</h3> <hr>" + "<h4>" + feature.properties.ISO_A3 + "</h4>");
+          layer.bindPopup("<h3>" + feature.properties.ADMIN + "</h3> <hr>");
         }  
       }).addTo(myMap);      
     });
@@ -90,32 +91,25 @@ function drawPiePlot(Country, Year) {
     let resultYear = resultArray.filter(y => y.year == Year)[0];
     let cement_co2 = resultYear.cement_co2;
     let cement_co2_per_capita = resultYear.cement_co2_per_capita;
-    let co2 = resultYear.co2;
-    let co2_per_capita = resultYear.co2_per_capita;
     let coal_co2 = resultYear.coal_co2;
-    let coal_co2_per_capita = resultYear.coal_co2_per_capita;
     let countryName = resultYear.country;
     let flaring_co2 = resultYear.flaring_co2;
-    let flaring_co2_per_capita = resultYear.flaring_co2_per_capita;
     let gas_co2 = resultYear.gas_co2;
-    let gas_co2_per_capita = resultYear.gas_co2_per_capita;
-    let gdp = resultYear.gdp;
-    let id = resultYear.id;
-    let iso_code = resultYear.iso_code;
     let oil_co2 = resultYear.oil_co2;
-    let oil_co2_per_capita = resultYear.oil_co2_per_capita;
-    let other_co2_per_capita = resultYear.other_co2_per_capita;
     let other_industry_co2 = resultYear.other_industry_co2;
-    let population = resultYear.population;
-    let share_global_co2 = resultYear.share_global_co2;
-    let share_global_cumulative_co2 = resultYear.share_global_cumulative_co2;
-    let yearNumber = resultYear.year;
 
+    let ultimateColors =
+      ['rgb(17, 100, 180)', 'rgb(12, 152, 186)', 'rgb(48, 191, 191)', 'rgb(141, 216, 204)', 'rgb(13, 173, 141)','rgb(6, 78, 64)']
     let trace1 = {
         
         values: [cement_co2, coal_co2, flaring_co2, gas_co2, oil_co2, other_industry_co2],
-        labels: ["cement_co2", "coal_co2", "flaring_co2", "gas_co2", "oil_co2", "other_co2"],
-        type: "pie"
+        labels: ["Cement", "Coal", "Flaring", "Gas", "Oil", "Other Industrial"],
+        type: "pie",
+        marker: {
+          colors:ultimateColors,
+          hoverinfo: 'label+percent+name',
+          textinfo: 'none'
+        },
     }
     let pieArray = [trace1]
     let pieLayout={
@@ -123,8 +117,8 @@ function drawPiePlot(Country, Year) {
         margin: {
           b:0,
           t:30,
-          l:5,
-          r:5,
+          l:15,
+          r:15,
         }
     }
     Plotly.newPlot("pie_plot", pieArray, pieLayout);    
@@ -132,16 +126,11 @@ function drawPiePlot(Country, Year) {
 };
 
 // Chart.js Scatter Plot
-function drawScatterPlot(Country, Year) 
-{
+function drawScatterPlot(Country, Year) {
   d3.json("/data").then(function(data) {
-    console.log(data)
-    console.log("HELLO", Country, Year)
     let resultArray = data.filter(c => c.iso_code == Country);
     let resultYear = resultArray.filter(y => y.year == Year)[0];
-    let countryName = resultYear.country;
-
- 
+    let countryName = resultYear.country; 
     let yearsArray = [];
     let co2Array = [];
 
@@ -163,7 +152,7 @@ function drawScatterPlot(Country, Year)
             label: "CO2 Emissions",
             data: co2Array,
             // fill: false,
-            backgroundColor: "rgba(153,205,1,0.6)",
+            backgroundColor: "rgba(0,77,128,0.6)",
             // borderColor: 'blue',
           },
         ],
@@ -174,31 +163,13 @@ function drawScatterPlot(Country, Year)
 
 function drawTable(Country, Year){
   d3.json("/data").then(function(data) {
-    console.log(data)
-    console.log("HELLO", Country, Year)
     let resultArray = data.filter(c => c.iso_code == Country);
     let resultYear = resultArray.filter(y => y.year == Year)[0];
-    let cement_co2 = resultYear.cement_co2;
-    let cement_co2_per_capita = resultYear.cement_co2_per_capita;
-    let co2 = resultYear.co2;
     let co2_per_capita = resultYear.co2_per_capita;
-    let coal_co2 = resultYear.coal_co2;
-    let coal_co2_per_capita = resultYear.coal_co2_per_capita;
     let countryName = resultYear.country;
-    let flaring_co2 = resultYear.flaring_co2;
-    let flaring_co2_per_capita = resultYear.flaring_co2_per_capita;
-    let gas_co2 = resultYear.gas_co2;
-    let gas_co2_per_capita = resultYear.gas_co2_per_capita;
     let gdp = resultYear.gdp;
-    let id = resultYear.id;
-    let iso_code = resultYear.iso_code;
-    let oil_co2 = resultYear.oil_co2;
-    let oil_co2_per_capita = resultYear.oil_co2_per_capita;
-    let other_co2_per_capita = resultYear.other_co2_per_capita;
-    let other_industry_co2 = resultYear.other_industry_co2;
     let population = resultYear.population;
     let share_global_co2 = resultYear.share_global_co2;
-    let share_global_cumulative_co2 = resultYear.share_global_cumulative_co2;
     let yearNumber = resultYear.year;
 
     let values = [
@@ -213,21 +184,76 @@ function drawTable(Country, Year){
       margin: {top:0},
       header: {
         values: [[countryName],  [`Year: ${yearNumber}`]],
-        align: "center", height: 35,
+        align: "center", height: 25,
         line: {width: 1, color: 'black'},
-        fill: {color: "grey"},
-        font: {family: "Arial", size: 25, color: "white"}
+        fill: {color: "rgb(0, 77, 128)"},
+        font: {family: "Arial", size: 18, color: "white"}
       },
       cells: {
         values: values,
-        align: "center", height: 35,
+        align: "center", height: 25,
         line: {color: "black", width: 1},
-        font: {family: "Arial", size: 16, color: ["black"]}
+        font: {family: "Arial", size: 15, color: ["black"]}
       }
     }]
 
     let tablelayout = {
       title:"Miscallaneous Country Info",
+      margin: {
+        b:10,
+        t:30,
+        l:5,
+        r:5,
+      }
+    }
+    Plotly.newPlot('table', tabledata, tablelayout);
+  });
+};
+
+function drawTableTop(Year){
+  d3.json("/data").then(function(data) {
+    d3.json("/data").then(function(data) {
+      let sortedCountry = data.sort(function(a,b) { return +b.co2 - +a.co2 })
+      let resultYear = sortedCountry.filter(y => y.year == Year);
+      let resultTop = resultYear.slice(1,11);    
+      let countryTop=[];
+      let co2Top=[];
+      for (i = 0; i < resultTop.length; i++) {
+        console.log(resultTop[i].country)
+        console.log(resultTop[i].co2)
+        let resultCountry = resultTop[i].country;
+        let resultCo2 = resultTop[i].co2;
+        countryTop.push(resultCountry);
+        co2Top.push(resultCo2);
+      }
+    
+    let values = [
+      [countryTop[0], countryTop[1], countryTop[2], countryTop[3], countryTop[4], countryTop[5], countryTop[6], countryTop[7], countryTop[8], countryTop[9]], 
+      [co2Top[0], co2Top[1], co2Top[2], co2Top[3], co2Top[4], co2Top[5], co2Top[6], co2Top[7], co2Top[8], co2Top[9]],
+    ]
+
+    let tabledata = [{
+      type: 'table',
+      columnorder: [1,2],
+      columnwidth: [5, 5],
+      margin: {top:0},
+      header: {
+        values: [["Country"],  ["Total Co2 Emissions"]],
+        align: "center", height: 25,
+        line: {width: 1, color: 'black'},
+        fill: {color: "rgb(0, 77, 128)"},
+        font: {family: "Arial", size: 18, color: "white"}
+      },
+      cells: {
+        values: values,
+        align: "center", height: 25,
+        line: {color: "black", width: 1},
+        font: {family: "Arial", size: 15, color: ["black"]}
+      }
+    }]
+
+    let tablelayout = {
+      title:`Top 10 Contributors to Co2 Emisssions in ${Year}`,
       margin: {
         b:0,
         t:30,
@@ -235,44 +261,53 @@ function drawTable(Country, Year){
         r:5,
       }
     }
-
-    Plotly.newPlot('table', tabledata, tablelayout);
+    Plotly.newPlot('table_top', tabledata, tablelayout);
   });
+});
 };
-
 
 function drawGaugePlot(Country, Year) {
   d3.json("/data").then(function(data) {
-    console.log(data)
+  
     let resultArray = data.filter(c => c.iso_code == Country);
     let resultYear = resultArray.filter(y => y.year == Year);
     let result = resultYear[0]
-    let countryName = resultYear.country;
+    let countryName = result.country;
     let co2 = result.co2;
     let yearNumber = result.year;
     let share_global_co2 = result.share_global_co2;
     let GaugeData = {
-      value : share_global_co2 , domain: {x:(0,100)}, gauge:{axis : {range: [0,100], tickwidth: 1, tickcolor: "black", dtick: 10, nticks: 10 }, bar: { color: "darkolivegreen" , thickness: 1}
-      }, step:[
-        { range: [0, 10], color : "#FF0000" },
-        { range: [30, 40], color: "lightgrey" },
-        { range: [10, 20], color: "whitesmoke" },
-        { range: [20, 30], color: "gainsboro" },
-        { range: [40, 50], color: "silver" },
-        { range: [50, 60], color: "darkgrey" },
-        { range: [60, 70], color: "slategrey" },
-        { range: [70, 80], color: "grey" },
-        { range: [80, 90], color: "dimgrey" },
-        { range: [90, 100], color: "black" }
-      ], type: "indicator",
-      mode: "gauge+number"};
+      
+      type: "indicator",
+      mode: "gauge+number",
+      value : co2 , 
+      domain: { x: [0, 1], y: [0, 1] },
+      title:{text: `Co2 contribution by ${countryName} in the year ${yearNumber}`, font:{color:"rgb(0, 77, 128)" , size: 15}},
+      gauge:{
+        // bgcolor: "black",
+        // bordercolor: "black",
+        // color: {gradient: true},
+        // bar: { color: "rgb(0, 77, 128)" , thickness: 0.25},
+        bar: { color: "rgb(0, 77, 128)", thickness: 0.25, line: {color: "blue", width: 1}},
+        axis : {range: [null,12000], showticklabels: true}, 
+        
+        steps: [
+          { range: [10000,12000], color: 'rgb(100,100,100)'},
+          { range: [8000,10000], color: 'rgb(125,125,125)'},
+          { range: [6000,8000], color: 'rgb(150,150,150)'},
+          { range: [4000,6000], color: 'rgb(175,175,175)'},
+          { range: [2000,4000], color: 'rgb(200,200,200)'},
+          { range: [0,2000], color: 'rgb(225,225,225)'},
+
+        ]        
+        }};
     
     let GaugeDataArray = [GaugeData];
 
-      // Create a layout object
+    // Create a layout object
     let GaugeLayout = {
-          title:{text: `Co2 contribution by ${countryName} in the year ${yearNumber}`, font:{size: 15}},
-          color : 'blue',
+
+        margin: { t: 0, b: 0}
 
       };
 
@@ -280,7 +315,6 @@ function drawGaugePlot(Country, Year) {
     Plotly.newPlot("gauge_plot", GaugeDataArray, GaugeLayout);
   })
 };
-
 
 //--- DASHBOARD FUNCTION START -----------
 function InitDashboard() {
