@@ -75,7 +75,6 @@ function drawgeoJsonMap() {
               drawPiePlot(clickedCountry,yearDefault);
               drawScatterPlot(clickedCountry, yearDefault);
               drawTable(clickedCountry, yearDefault);
-              drawGaugePlot(clickedCountry, yearDefault);
               d3.select("#iso").text(feature.properties.ISO_A3)
             } 
           });
@@ -292,8 +291,7 @@ function drawGaugePlot(Country, Year) {
     let co2 = result.co2;
     let yearNumber = result.year;
     let share_global_co2 = result.share_global_co2;
-    let GaugeData = {
-      
+    let GaugeData = { 
       type: "indicator",
       mode: "gauge+number",
       value : co2 , 
