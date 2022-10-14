@@ -14,7 +14,11 @@ By clicking on a country on the world map and selecting a year from the dropdown
 - total CO<sub>2</sub> per year
 - a % breakup of CO<sub>2</sub> contributions by different sources (coal, oil, gas, cement)
 
----- Include a screenshot of completed DashBoard-------
+<p align="center">
+  <img src="Images/dashboard.png" />
+</p>
+
+
 ____________
 ## Technologies and Tools Used:
 
@@ -65,4 +69,4 @@ _____________
 1. Type ``python app.py`` and then hit ``enter``
 1. Observe that the Flask server starts and tells you which port it's running on. Don't close this window.
 1. With the Flask server running, enter this address in your Chrome browser: http://127.0.0.1:5000/. You will see that it loads the index page which is our World CO<sub>2</sub> Emissions Dashboard.
-1. <-- add steps to view json link -->
+1. The data used in the dashboard can be found by following the /data route.
