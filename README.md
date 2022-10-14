@@ -1,5 +1,5 @@
 ### Project 3 University of Minnesota Data Visualization and Analytics Boot Camp
-# World CO<sup>2</sup> Emissions Dashboard:
+# World CO<sub>2</sub> Emissions Dashboard:
 
 Created by Group 5 
 
@@ -8,10 +8,10 @@ ____________
 ## About 
 The purpose of the app we have created is to present information on the Carbondioxide emissions by each country on the world map. Our dashboard presents information from years 1972 to 2020.
 By clicking on a country on the world map and selecting a year from the dropdown, users can use our dashboard to observe the following information for a selected country, for a chosen year:
-- population, country's GDP, CO<sup>2</sup> per capita and country's global CO<sup>2</sup> contribution
-- % contribution to the world's CO<sup>2</sup> in a particular year, 
-- total CO<sup>2</sup> per year
-- a % breakup of CO<sup>2</sup> contributions by different sources (coal, oil, gas, cement)
+- population, country's GDP, CO<sub>2</sub> per capita and country's global CO<sub>2</sub> contribution
+- % contribution to the world's CO<sub>2</sub> in a particular year, 
+- total CO<sub>2</sub> per year
+- a % breakup of CO<sub>2</sub> contributions by different sources (coal, oil, gas, cement)
 
 ---- Include a screenshot of completed DashBoard-------
 ____________
@@ -52,5 +52,5 @@ _____________
 1. Type ``source activate PythonData38`` and then click ``enter`` to activate PythonData38 environment 
 1. Type ``python app.py`` and then hit ``enter``
 1. Observe that the Flask server starts and tells you which port it's running on. Don't close this window.
-1. With the Flask server running, enter this address in your Chrome browser: http://127.0.0.1:5000/. You will see that it loads the index page which is our World CO<sup>2</sup> Emissions Dashboard.
+1. With the Flask server running, enter this address in your Chrome browser: http://127.0.0.1:5000/. You will see that it loads the index page which is our World CO<sub>2</sub> Emissions Dashboard.
 1. <-- add steps to view json link -->
