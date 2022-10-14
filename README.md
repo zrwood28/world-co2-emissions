@@ -29,9 +29,20 @@ ____________
 _____________
 ## Contents of the Repo:
 
-
-
-
+- app.py
+- co2_ETL.ipynb
+- world-co2-omissions.sql
+- templates
+  - index.html
+- static
+ - css
+  - style.css
+ - data
+  - countries1.geojson
+ - js
+  - logic.js
+  - scatter_plot.js
+  - year_dropdown.js
 
 
 _____________
