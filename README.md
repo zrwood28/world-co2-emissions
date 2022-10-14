@@ -1,5 +1,5 @@
 ### Project 3 University of Minnesota Data Visualization and Analytics Boot Camp
-# World CO<sup>2</sup> Emissions Dashboard:
+# World CO<sub>2</sub> Emissions Dashboard:
 
 Created by Group 5 
 
