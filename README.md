@@ -6,10 +6,11 @@ Created by Group 5
 Project Team Members: Ben Johnson, Joey Eikens, Yameena Khan, Zach Wood & Oscar Iwu
 ____________
 ## About 
-The purpose of the app we have created is to present information on the Carbondioxide emissions by each country on the world map. Our dashboard presents information from years 1972 to 2020.
+The purpose of the app we have created is to present information on the carbon dioxide emissions by each country on the world map. Our dashboard presents information from years 1972 to 2020.
 By clicking on a country on the world map and selecting a year from the dropdown, users can use our dashboard to observe the following information for a selected country, for a chosen year:
 - population, country's GDP, CO<sub>2</sub> per capita and country's global CO<sub>2</sub> contribution
-- % contribution to the world's CO<sub>2</sub> in a particular year, 
+- top 10 contributors in global emissions in a given year
+- % contribution to the world's CO<sub>2</sub> in a particular year
 - total CO<sub>2</sub> per year
 - a % breakup of CO<sub>2</sub> contributions by different sources (coal, oil, gas, cement)
 
