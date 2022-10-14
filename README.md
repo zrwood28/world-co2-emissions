@@ -35,14 +35,14 @@ _____________
 - templates
   - index.html
 - static
- - css
-  - style.css
- - data
-  - countries1.geojson
- - js
-  - logic.js
-  - scatter_plot.js
-  - year_dropdown.js
+  - css
+    - style.css
+  - data
+    - countries1.geojson
+  - js
+    - logic.js
+    - scatter_plot.js
+    - year_dropdown.js
 
 
 _____________
