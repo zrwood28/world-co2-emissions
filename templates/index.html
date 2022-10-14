@@ -35,7 +35,7 @@
     <br>
 
     <!-- Dashboard header -->
-      <div class="row">
+      <div class="container"><div class="row">
         <div class="col-md-1"></div>
         <div class="col-md-10">
           <header>      
@@ -44,6 +44,7 @@
         </div>
         <div class="col-md-1"></div>
       </div>
+    </div>
     <br> 
     
     <!-- html layout for maps and plots and tables -->
@@ -69,61 +70,16 @@
         <div class="col-md-4"> 
           <!-- <div class="card table-container">  -->
             <div id="table"></div>
-          <!-- </div> -->
-            <!-- 4 - TABLE -->
-            <!-- <table>
-              <tr>
-                  <td>ancient</td>
-                  <td>mother</td>
-                  <td>drop</td>
-                  <td>wood</td>
-                  <td>mysterious</td>
-              </tr>
-              <tr>
-                  <td>gain</td>
-                  <td>topic</td>
-                  <td>particles</td>
-                  <td>cloth</td>
-                  <td>want</td>
-              </tr>
-              <tr>
-                  <td>declared</td>
-                  <td>dig</td>
-                  <td>modern</td>
-                  <td>blood</td>
-                  <td>stared</td>
-              </tr>
-              <tr>
-                  <td>read</td>
-                  <td>railroad</td>
-                  <td>mouth</td>
-                  <td>dream</td>
-                  <td>best</td>
-              </tr>
-              <tr>
-                  <td>best</td>
-                  <td>sick</td>
-                  <td>dark</td>
-                  <td>stock</td>
-                  <td>shop</td>
-              </tr>
-              <tr>
-                  <td>easily</td>
-                  <td>meet</td>
-                  <td>suit</td>
-                  <td>trap</td>
-                  <td>grabbed</td>
-              </tr>
-          </table> -->
-          <!-- </div>           -->
+            <div id="table_top"></div>
         </div> 
     </div>
+    <br>
     <!-- create div to hold first plot -->
     <div class="row">
       <div class="col-md-4">
         <div class="card gauge-container">
-          <h5 class="card-header">% Contribution to Total World Emissions</h5>
-          <div id="bar_plot"></div>
+          <h5 class="card-header">Contribution to Total World Emissions</h5>
+          <div id="gauge_plot"></div>
         </div>
       </div>
     <!-- create div to hold second plot -->
@@ -137,12 +93,15 @@
     <!-- create div to hold third plot -->
       <div class="col-md-4">
         <div class="card pie-container">
-          <h5 class="card-header">Contribution to Total Co2 Emissions</h5>
-          <div id="pie_plot"></div>   
+          <h5 class="card-header">% Emissions from Sources to Total Co2</h5>
+          <div id="pie_plot"></div>
+          
         </div>
+        <p>Note: All Emissions are shown/listed in millions of tonnes</p>  
       </div>
     </div>
   </div>
+  
 
 
     <!-- JavaScript file -->

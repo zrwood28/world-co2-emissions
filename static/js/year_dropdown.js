@@ -1,16 +1,15 @@
 // console.log("yeardropdown connected");
 
 function optionChanged(yearSelected) {
-
-
     console.log(`User selected year: ${yearSelected}`);
-
+    // use selector to be able to update plots with current country selected when new year is selected
     let selector=d3.select("#iso").text()
-    console.log(selector);
+    
+    // recreate plots when clicking on the Year dropdown
     drawGaugePlot(selector,yearSelected);
     drawPiePlot(selector,yearSelected);
-    drawScatterPlot(selector, yearSelected);
-    drawTable(selector, yearSelected);    
+    drawTable(selector, yearSelected); 
+    drawTableTop(yearSelected);   
 };
 
 
@@ -44,6 +43,7 @@ function dropdown() {
     drawPiePlot(defaultCountry,yearDefault);
     drawScatterPlot(defaultCountry, yearDefault);
     drawTable(defaultCountry, yearDefault);
+    drawTableTop(yearDefault);
 };
 
 dropdown();
