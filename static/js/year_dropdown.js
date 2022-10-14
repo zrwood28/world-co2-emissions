@@ -2,8 +2,10 @@
 
 function optionChanged(yearSelected) {
     console.log(`User selected year: ${yearSelected}`);
+    // use selector to be able to update plots with current country selected when new year is selected
     let selector=d3.select("#iso").text()
     
+    // recreate plots when clicking on the Year dropdown
     drawGaugePlot(selector,yearSelected);
     drawPiePlot(selector,yearSelected);
     drawTable(selector, yearSelected); 

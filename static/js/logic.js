@@ -1,5 +1,6 @@
 console.log("This is logic.js")
 
+// choose map view
 let myMap = L.map("map", {
     center: [
         37.09, -95.71
@@ -14,6 +15,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     noWrap: true
 }).addTo(myMap);
 
+// specify bounds to the map
 let swCorner = L.latLng(-90, -180);
 let neCorner = L.latLng(90, 180);
 let boundaries = L.latLngBounds(swCorner, neCorner);
@@ -27,9 +29,10 @@ myMap.options.minZoom = 2;
 myMap.options.maxZoom = 6;
 myMap.fire("zoomend");
 
-
+// define geojson location from app.py
 const file_endpoint = "readjsonfile/countries1.geojson"; 
 let url = file_endpoint; 
+//--------- GEOJSON MAP FUNCTION START --------------------------------------------
 // Get the GeoJSON data and plot it on the map
 function drawgeoJsonMap() {
   d3.json(url).then(function(data) {
@@ -73,7 +76,6 @@ function drawgeoJsonMap() {
               drawScatterPlot(clickedCountry, yearDefault);
               drawTable(clickedCountry, yearDefault);
               drawGaugePlot(clickedCountry, yearDefault);
-              drawTableTop(yearDefault);   
               d3.select("#iso").text(feature.properties.ISO_A3)
             } 
           });
@@ -83,10 +85,12 @@ function drawgeoJsonMap() {
       }).addTo(myMap);      
     });
   };
+//--------- GEOJSON MAP FUNCTION END --------------------------------------------
 
-
+//--------- PIE CHART PLOT FUNCTION START --------------------------------------------
 function drawPiePlot(Country, Year) {
   d3.json("/data").then(function(data) {
+    // define variables to use in plots
     let resultArray = data.filter(c => c.iso_code == Country);
     let resultYear = resultArray.filter(y => y.year == Year)[0];
     let cement_co2 = resultYear.cement_co2;
@@ -124,20 +128,22 @@ function drawPiePlot(Country, Year) {
     Plotly.newPlot("pie_plot", pieArray, pieLayout);    
   });
 };
+//--------- PIE CHART PLOT FUNCTION END --------------------------------------------
 
-// Chart.js Scatter Plot
+//--------- SCATTER PLOT FUNCTION START - USING CHARTS.JS --------------------------------------------
 function drawScatterPlot(Country, Year) {
   d3.json("/data").then(function(data) {
+    // define variables to use in plots
     let resultArray = data.filter(c => c.iso_code == Country);
     let resultYear = resultArray.filter(y => y.year == Year)[0];
     let countryName = resultYear.country; 
     let yearsArray = [];
     let co2Array = [];
 
+    // loop through to fill in empty lists to use in chart.js table
     for (let i = 0; i < resultArray.length; i++ ) {
       let year = resultArray[i].year
       let co2Result = resultArray[i].co2
-
       yearsArray.push(year);
       co2Array.push(co2Result);
     }
@@ -145,11 +151,12 @@ function drawScatterPlot(Country, Year) {
     var ctx = document.getElementById("scatter_plot").getContext("2d");
     var myChart = new Chart(ctx, {
       type: "line",
+      
       data: {
         labels: yearsArray,
         datasets: [
           {
-            label: "CO2 Emissions",
+            label: `CO2 Emissions in ${countryName} by Year`,
             data: co2Array,
             // fill: false,
             backgroundColor: "rgba(0,77,128,0.6)",
@@ -160,9 +167,12 @@ function drawScatterPlot(Country, Year) {
     });
   });
 };
+//--------- SCATTER PLOT FUNCTION END - USING CHARTS.JS --------------------------------------------
 
+//--------- COUNTRY INFO TABLE FUNCTION START --------------------------------------------
 function drawTable(Country, Year){
   d3.json("/data").then(function(data) {
+    // define variables to use in table
     let resultArray = data.filter(c => c.iso_code == Country);
     let resultYear = resultArray.filter(y => y.year == Year)[0];
     let co2_per_capita = resultYear.co2_per_capita;
@@ -209,23 +219,27 @@ function drawTable(Country, Year){
     Plotly.newPlot('table', tabledata, tablelayout);
   });
 };
+//--------- COUNTRY INFO TABLE FUNCTION END --------------------------------------------
 
+//--------- TOP 10 TABLE FUNCTION START --------------------------------------------
 function drawTableTop(Year){
   d3.json("/data").then(function(data) {
-    d3.json("/data").then(function(data) {
-      let sortedCountry = data.sort(function(a,b) { return +b.co2 - +a.co2 })
-      let resultYear = sortedCountry.filter(y => y.year == Year);
-      let resultTop = resultYear.slice(1,11);    
-      let countryTop=[];
-      let co2Top=[];
-      for (i = 0; i < resultTop.length; i++) {
-        console.log(resultTop[i].country)
-        console.log(resultTop[i].co2)
-        let resultCountry = resultTop[i].country;
-        let resultCo2 = resultTop[i].co2;
-        countryTop.push(resultCountry);
-        co2Top.push(resultCo2);
-      }
+    // define variables to use in table
+    let sortedCountry = data.sort(function(a,b) { return +b.co2 - +a.co2 })
+    let resultYear = sortedCountry.filter(y => y.year == Year);
+    let resultTop = resultYear.slice(1,11);   
+    // create empty lists to fill with top 10 countries emitting co2 for current year 
+    let countryTop=[];
+    let co2Top=[];
+    // for loop to populate empty lists
+    for (i = 0; i < resultTop.length; i++) {
+      console.log(resultTop[i].country)
+      console.log(resultTop[i].co2)
+      let resultCountry = resultTop[i].country;
+      let resultCo2 = resultTop[i].co2;
+      countryTop.push(resultCountry);
+      co2Top.push(resultCo2);
+    }
     
     let values = [
       [countryTop[0], countryTop[1], countryTop[2], countryTop[3], countryTop[4], countryTop[5], countryTop[6], countryTop[7], countryTop[8], countryTop[9]], 
@@ -263,12 +277,14 @@ function drawTableTop(Year){
     }
     Plotly.newPlot('table_top', tabledata, tablelayout);
   });
-});
 };
 
+//--------- TOP 10 TABLE FUNCTION END --------------------------------------------
+
+//--------- GAUGE FUNCTION START --------------------------------------------
 function drawGaugePlot(Country, Year) {
   d3.json("/data").then(function(data) {
-  
+    // define variables to use in plots
     let resultArray = data.filter(c => c.iso_code == Country);
     let resultYear = resultArray.filter(y => y.year == Year);
     let result = resultYear[0]
@@ -284,13 +300,8 @@ function drawGaugePlot(Country, Year) {
       domain: { x: [0, 1], y: [0, 1] },
       title:{text: `Co2 contribution by ${countryName} in the year ${yearNumber}`, font:{color:"rgb(0, 77, 128)" , size: 15}},
       gauge:{
-        // bgcolor: "black",
-        // bordercolor: "black",
-        // color: {gradient: true},
-        // bar: { color: "rgb(0, 77, 128)" , thickness: 0.25},
-        bar: { color: "rgb(0, 77, 128)", thickness: 0.25, line: {color: "blue", width: 1}},
-        axis : {range: [null,12000], showticklabels: true}, 
-        
+                bar: { color: "rgb(0, 77, 128)", thickness: 0.25, line: {color: "blue", width: 1}},
+        axis : {range: [null,12000], dtick: 2000},       
         steps: [
           { range: [10000,12000], color: 'rgb(100,100,100)'},
           { range: [8000,10000], color: 'rgb(125,125,125)'},
@@ -298,7 +309,6 @@ function drawGaugePlot(Country, Year) {
           { range: [4000,6000], color: 'rgb(175,175,175)'},
           { range: [2000,4000], color: 'rgb(200,200,200)'},
           { range: [0,2000], color: 'rgb(225,225,225)'},
-
         ]        
         }};
     
@@ -306,15 +316,13 @@ function drawGaugePlot(Country, Year) {
 
     // Create a layout object
     let GaugeLayout = {
-
         margin: { t: 0, b: 0}
-
       };
-
-      // Add plotly
+    // Add plotly
     Plotly.newPlot("gauge_plot", GaugeDataArray, GaugeLayout);
   })
 };
+//--------- GAUGE FUNCTION END --------------------------------------------
 
 //--- DASHBOARD FUNCTION START -----------
 function InitDashboard() {
@@ -324,4 +332,5 @@ function InitDashboard() {
 };
 //--- DASHBOARD FUNCTION END -----------
 
+// call initialization of dashboard
 InitDashboard();
