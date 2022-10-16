@@ -18,6 +18,14 @@ By clicking on a country on the world map and selecting a year from the dropdown
   <img src="Images/dashboard.png" />
 </p>
 
+____________
+## Data/Sources:
+
+- [Github Link](https://github.com/owid/co2-data) - Contains dataset to make plots/tables
+  - [Link to Raw Data](https://raw.githubusercontent.com/owid/co2-data/master/owid-co2-data.csv)
+- [GeoJSON Link](https://datahub.io/core/geo-countries/r/countries.geojson) - contains geoJSON for use in creating map boundaries on leaflet map
+
+
 
 ____________
 ## Technologies and Tools Used:
