@@ -163,6 +163,14 @@ function drawScatterPlot(Country, Year) {
           },
         ],
       },
+      options: {
+        plugins: {
+          title: {
+            display: true,
+            text: "CO2 Emissions in ${countryName} by Year"
+          }
+        }
+      }
     });
   });
 };
