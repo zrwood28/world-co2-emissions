@@ -10,7 +10,7 @@ The purpose of the app we have created is to present information on the carbon d
 By clicking on a country on the world map and selecting a year from the dropdown, users can use our dashboard to observe the following information for a selected country, for a chosen year:
 - population, country's GDP, CO<sub>2</sub> per capita and country's global CO<sub>2</sub> contribution
 - top 10 contributors in global emissions in a given year
-- % contribution to the world's CO<sub>2</sub> in a particular year
+- a country's contribution to the world's CO<sub>2</sub> in a particular year
 - total CO<sub>2</sub> per year
 - a % breakup of CO<sub>2</sub> contributions by different sources (coal, oil, gas, cement)
 
