@@ -65,7 +65,7 @@ _____________
 1. Create a new database called ``world_carbon_emissions_db`` 
 1. Open the query tool within the ``world_carbon_emissions_db`` 
 1. Open the ``world-co2-omissions.sql`` file stored in the repo cloned within PostgreSQL
-1. Highlight the code to create tables for the ``world_co2``
+1. Highlight and run the code to create tables for the ``world_co2``
 1. Once the table is created right click on the local repo and then launch a Git Bash (Windows) or Terminal (Mac)
 1. Type ``source activate PythonData38`` and then click ``enter`` to activate PythonData38 environment 
 1. Launch Jupyter Notebooks in Google Chrome, by typing the command ``jupyter notebook`` on your Gitbash/Terminal window and then click ``enter``
